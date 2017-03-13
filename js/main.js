@@ -2,7 +2,7 @@
  * Created by azad on 2017-03-12.
  */
 $(document).ready(function () {
-    //get_collections();
+    // get_collections();
     $("#search_btn").click(search_click);
 
     // For handling Enter key
@@ -52,7 +52,11 @@ function search_click() {
 
                 error: function (data) {
                     if (data.status == 404) {
-                        $("#results").append(divMaker("static/img/404.png",'col-md-9',''));
+                        path = window.location.pathname.split('/');
+                        path.pop();
+                        path.push('img','404.png');
+                        path = path.join('/'); 
+                        $("#results").append(divMaker(path,'col-md-12',''));
                     }
                     // in the case of limited request is happening
                     else if(data.status == 403){
@@ -72,7 +76,11 @@ function render_results(data){
         });
     }
     else{
-        $("#results").append(divMaker("static/img/No_image_available.png",'col-md-9','' ));
+        path = window.location.pathname.split('/');
+        path.pop();
+        path.push('img','No_image_available.png');
+        path = path.join('/'); 
+        $("#results").append(divMaker(path,'col-md-12','' ));
     }
 }
 
@@ -91,6 +99,7 @@ function get_collections(){
                 success: function(data){
                     var ul = $(document.createElement("ul"));
                     data.forEach(function(collection){
+                        console.log(collection)
                         ul.append("<li>"+collection.id+"</li>");
                     })
                     $("#results").append(ul);
